@@ -118,7 +118,7 @@ export function CustomCursor() {
       <div
         ref={dotRef}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[10000] h-2 w-2 rounded-full bg-[color:var(--electric)]"
+        className="pointer-events-none fixed left-0 top-0 z-[10000] h-1 w-1 rounded-full bg-[color:var(--electric)] shadow-[0_0_8px_var(--electric)]"
         style={{
           willChange: "transform",
           opacity: 0,
