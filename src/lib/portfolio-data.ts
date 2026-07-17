@@ -7,9 +7,9 @@ export const PROFILE = {
   title: "CSE (AI & ML) student · aspiring Software Engineer",
   location: "Jaipur, India",
   email: "bhaktibhosle123@gmail.com",
-  linkedin: "https://linkedin.com/in/bhakti-bhosle",
+  linkedin: "www.linkedin.com/in/bhakti-bhosle-73540a2a4",
   github: "https://github.com/bhakti263",
-  leetcode: "https://leetcode.com/u/bhakti263",
+  leetcode: "https://leetcode.com/u/BhaktiBhosle/",
   summary:
     "Computer Science Engineering student specialising in Artificial Intelligence & Machine Learning at Manipal University Jaipur. I build intelligent, scalable systems — from full-stack AI platforms to agentic LLM pipelines and responsive web applications.",
 };
@@ -107,18 +107,51 @@ export const EXPERIENCE = [
 ];
 
 export const CERTIFICATIONS = [
-  { name: "Microsoft Azure AI Fundamentals", issuer: "Microsoft" },
-  { name: "Cisco Python Essentials 1 & 2", issuer: "Cisco" },
-  { name: "Oracle Database Foundations & Design", issuer: "Oracle" },
-  { name: "NPTEL — Design and Analysis of Algorithms", issuer: "NPTEL" },
-  { name: "NPTEL — Machine Learning", issuer: "NPTEL" },
-  { name: "NPTEL — Deep Learning", issuer: "NPTEL" },
-  { name: "CodeChef — DSA Lab Program", issuer: "CodeChef" },
   {
-    name: "Coursera — Building RESTful APIs with Node.js & Express",
-    issuer: "Coursera",
+    name: "Cloud Computing",
+    issuer: "NPTEL",
+    link: "/certificates/cloud.pdf",
   },
-  { name: "Coursera — Frontend Development using Angular", issuer: "Coursera" },
+  {
+    name: "CodeChef DSA",
+    issuer: "CodeChef",
+    link: "/certificates/codechef.pdf",
+  },
+  {
+    name: "Design and Analysis of Algorithms",
+    issuer: "NPTEL",
+    link: "/certificates/daa.pdf",
+  },
+  {
+    name: "Introduction to Machine Learning",
+    issuer: "NPTEL",
+    link: "/certificates/machine_learning.pdf",
+  },
+  {
+    name: "Deep Learning",
+    issuer: "NPTEL",
+    link: "/certificates/deep_learning.pdf",
+  },
+  {
+    name: "Python Essentials 1",
+    issuer: "Cisco Networking Academy",
+    link: "/certificates/python_essentials.pdf",
+  },
+  {
+    name: "Red Hat System Administration I",
+    issuer: "Red Hat",
+    link: "/certificates/red_hat.pdf",
+  },
+  {
+    name: "Building RESTful APIs with Node.js and Express",
+    issuer: "Coursera",
+    link: "/certificates/Restful API.pdf",
+  },
+  {
+    name: "Frontend Development using Angular",
+    issuer: "Coursera",
+    link: "/certificates/angular.pdf",
+  },
 ];
 
 /* ------------------------ AI assistant knowledge ----------------------- */
