@@ -70,13 +70,13 @@ export function CustomCursor() {
         ref={ringRef}
         aria-hidden
         data-hover="false"
-        className="pointer-events-none fixed left-0 top-0 z-[100] h-9 w-9 rounded-full border border-[color:var(--electric)]/50 transition-[width,height,background-color,border-color,opacity] duration-300 ease-out data-[hover=true]:h-14 data-[hover=true]:w-14 data-[hover=true]:border-[color:var(--purple)]/80 data-[hover=true]:bg-[color:var(--electric)]/10"
+        className="pointer-events-none fixed left-0 top-0 z-[9999] h-9 w-9 rounded-full border border-[color:var(--electric)]/50 transition-[width,height,background-color,border-color,opacity] duration-300 ease-out data-[hover=true]:h-14 data-[hover=true]:w-14 data-[hover=true]:border-[color:var(--purple)]/80 data-[hover=true]:bg-[color:var(--electric)]/10"
         style={{ willChange: "transform" }}
       />
       <div
         ref={dotRef}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[101] h-1.5 w-1.5 rounded-full bg-[color:var(--electric)]"
+        className="pointer-events-none fixed left-0 top-0 z-[10000] h-1.5 w-1.5 rounded-full bg-[color:var(--electric)]"
         style={{ willChange: "transform" }}
       />
     </>
