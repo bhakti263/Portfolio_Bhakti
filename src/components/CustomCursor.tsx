@@ -17,8 +17,10 @@ export function CustomCursor() {
     setEnabled(true);
     document.documentElement.classList.add("has-custom-cursor");
 
-    const dot = dotRef.current!;
-    const ring = ringRef.current!;
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+
+    if (!dot || !ring) return;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
