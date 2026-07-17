@@ -47,9 +47,7 @@ function Home() {
   return (
     <main className="relative">
       <ClientOnly>
-        {/* <SmoothScroll /> */}
-        {/* <CustomCursor /> */}
-        <ScrollProgress />
+        <CustomCursor />
       </ClientOnly>
 
       <TopBar />
