@@ -126,9 +126,10 @@ function Hero() {
 
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-95">
         <div className="relative h-[68vmin] w-[68vmin]">
-          <ClientOnly>
+          
+           {/* <ClientOnly>
             <HeroObject />
-          </ClientOnly>
+            </ClientOnly> */}
           <div
             aria-hidden
             className="absolute inset-0 rounded-full"
