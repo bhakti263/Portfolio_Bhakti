@@ -86,11 +86,16 @@ function Core() {
 export function HeroObject() {
   return (
     <Canvas
-      dpr={[1, 2]}
-      camera={{ position: [0, 0, 3.6], fov: 45 }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-      className="!absolute inset-0"
-    >
+  dpr={[1, 2]}
+  camera={{ position: [0, 0, 3.6], fov: 45 }}
+  gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+  style={{
+    position: "absolute",
+    inset: 0,
+    pointerEvents: "none",
+    zIndex: 0,
+  }}
+>
       <ambientLight intensity={0.4} />
       <directionalLight position={[3, 3, 4]} intensity={1.2} color="#7ee8ff" />
       <directionalLight position={[-4, -2, -2]} intensity={0.9} color="#a78bfa" />
