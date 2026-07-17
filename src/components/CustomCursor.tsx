@@ -43,7 +43,7 @@ export function CustomCursor() {
   return (
     <>
       <div
-        className="fixed pointer-events-none rounded-full border transition-all duration-300"
+        className="fixed pointer-events-none rounded-full border transition-[width,height,background,border] duration-150"
         style={{
           left: mouse.x,
           top: mouse.y,
