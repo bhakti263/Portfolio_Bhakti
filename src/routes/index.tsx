@@ -48,7 +48,7 @@ function Home() {
     <main className="relative">
       <ClientOnly>
         {/* <SmoothScroll /> */}
-        <CustomCursor />
+        {/* <CustomCursor /> */}
         <ScrollProgress />
       </ClientOnly>
 
