@@ -3,105 +3,118 @@ import { motion } from "motion/react";
 import { SectionHeader } from "./SectionHeader";
 
 /**
- * Interactive skill constellation. Each skill is a node; hovering
- * a node illuminates its category connections.
+ * Interactive glowing constellation.
+ * Hovering a node highlights its direct connections.
+ * Hovering a category chip highlights the whole cluster.
  */
+
+type Group = "blue" | "purple" | "cyan";
 
 type Node = {
   id: string;
   label: string;
-  group: string;
-  x: number; // 0..100
-  y: number; // 0..100
+  group: Group;
+  x: number;
+  y: number;
 };
 
-const GROUPS: Record<string, string> = {
-  lang: "var(--electric)",
-  ai: "var(--purple)",
-  tools: "var(--cyan)",
-  core: "var(--emerald)",
-  cloud: "var(--indigo)",
+const COLOR: Record<Group, string> = {
+  blue: "var(--electric)",
+  purple: "var(--purple)",
+  cyan: "var(--cyan)",
 };
 
-const GROUP_LABELS: Record<string, string> = {
-  lang: "Languages",
-  ai: "AI / ML",
-  tools: "Frameworks",
-  core: "Core CS",
-  cloud: "Cloud & Tools",
+const GROUP_LABELS: Record<Group, string> = {
+  blue: "Languages",
+  purple: "AI / ML",
+  cyan: "Frameworks & Tools",
 };
 
 const NODES: Node[] = [
-  // Languages — left cluster
-  { id: "python", label: "Python", group: "lang", x: 14, y: 30 },
-  { id: "cpp", label: "C++", group: "lang", x: 8, y: 52 },
-  { id: "sql", label: "MySQL", group: "lang", x: 22, y: 68 },
-  { id: "js", label: "JavaScript", group: "lang", x: 20, y: 18 },
-  { id: "html", label: "HTML/CSS", group: "lang", x: 6, y: 40 },
-  { id: "node", label: "Node.js", group: "lang", x: 14, y: 82 },
+  // Languages
+  { id: "python", label: "Python", group: "blue", x: 10, y: 26 },
+  { id: "cpp", label: "C++", group: "blue", x: 6, y: 50 },
+  { id: "js", label: "JavaScript", group: "blue", x: 16, y: 72 },
+  { id: "sql", label: "MySQL", group: "blue", x: 22, y: 40 },
+  { id: "html", label: "HTML/CSS", group: "blue", x: 24, y: 18 },
+  { id: "node", label: "Node.js", group: "blue", x: 28, y: 60 },
 
-  // AI/ML — top center
-  { id: "llm", label: "LLMs", group: "ai", x: 42, y: 10 },
-  { id: "rag", label: "RAG", group: "ai", x: 56, y: 6 },
-  { id: "agent", label: "Agentic Pipelines", group: "ai", x: 70, y: 14 },
-  { id: "prompt", label: "Prompt Eng.", group: "ai", x: 40, y: 24 },
-  { id: "nlp", label: "NLP", group: "ai", x: 54, y: 22 },
-  { id: "ml", label: "Machine Learning", group: "ai", x: 46, y: 40 },
-  { id: "dl", label: "Deep Learning", group: "ai", x: 62, y: 38 },
+  // AI / ML
+  { id: "llm", label: "LLMs", group: "purple", x: 42, y: 22 },
+  { id: "rag", label: "RAG", group: "purple", x: 54, y: 12 },
+  { id: "agent", label: "Agents", group: "purple", x: 66, y: 22 },
+  { id: "ml", label: "Machine Learning", group: "purple", x: 44, y: 46 },
+  { id: "dl", label: "Deep Learning", group: "purple", x: 60, y: 50 },
+  { id: "nlp", label: "NLP", group: "purple", x: 52, y: 34 },
+  { id: "prompt", label: "Prompt Eng.", group: "purple", x: 38, y: 66 },
+  { id: "pt", label: "PyTorch", group: "purple", x: 56, y: 74 },
+  { id: "tf", label: "TensorFlow", group: "purple", x: 68, y: 64 },
 
-  // Frameworks — right cluster
-  { id: "pt", label: "PyTorch", group: "tools", x: 82, y: 26 },
-  { id: "tf", label: "TensorFlow", group: "tools", x: 92, y: 40 },
-  { id: "sk", label: "Scikit-learn", group: "tools", x: 80, y: 52 },
-  { id: "pd", label: "Pandas", group: "tools", x: 92, y: 62 },
-  { id: "np", label: "NumPy", group: "tools", x: 80, y: 72 },
-  { id: "st", label: "Streamlit", group: "tools", x: 90, y: 82 },
-  { id: "ng", label: "Angular", group: "tools", x: 78, y: 90 },
-  { id: "ex", label: "Express.js", group: "tools", x: 66, y: 86 },
+  // Frameworks & Tools
+  { id: "sk", label: "Scikit-learn", group: "cyan", x: 82, y: 28 },
+  { id: "pd", label: "Pandas", group: "cyan", x: 92, y: 44 },
+  { id: "np", label: "NumPy", group: "cyan", x: 80, y: 52 },
+  { id: "st", label: "Streamlit", group: "cyan", x: 90, y: 68 },
+  { id: "ng", label: "Angular", group: "cyan", x: 78, y: 78 },
+  { id: "azure", label: "Azure", group: "cyan", x: 72, y: 40 },
+  { id: "docker", label: "Docker", group: "cyan", x: 86, y: 86 },
+  { id: "git", label: "Git", group: "cyan", x: 70, y: 88 },
+];
 
-  // Core CS — bottom center
-  { id: "dsa", label: "DSA", group: "core", x: 40, y: 78 },
-  { id: "oop", label: "OOP", group: "core", x: 52, y: 90 },
-  { id: "os", label: "OS", group: "core", x: 30, y: 88 },
-  { id: "net", label: "Networks", group: "core", x: 44, y: 62 },
-  { id: "dbms", label: "DBMS", group: "core", x: 56, y: 74 },
+const EDGES: [string, string][] = [
+  ["python", "cpp"],
+  ["python", "js"],
+  ["python", "sql"],
+  ["html", "js"],
+  ["js", "node"],
+  ["sql", "node"],
+  ["cpp", "sql"],
 
-  // Cloud & Tools
-  { id: "azure", label: "Azure", group: "cloud", x: 30, y: 46 },
-  { id: "fb", label: "Firebase", group: "cloud", x: 34, y: 60 },
-  { id: "docker", label: "Docker", group: "cloud", x: 24, y: 74 },
-  { id: "git", label: "Git / Copilot", group: "cloud", x: 68, y: 54 },
+  ["python", "ml"],
+  ["python", "nlp"],
+  ["python", "pt"],
+  ["node", "agent"],
+  ["sql", "ml"],
+
+  ["llm", "rag"],
+  ["llm", "agent"],
+  ["rag", "agent"],
+  ["llm", "nlp"],
+  ["ml", "dl"],
+  ["ml", "nlp"],
+  ["dl", "pt"],
+  ["dl", "tf"],
+  ["prompt", "llm"],
+  ["prompt", "agent"],
+  ["nlp", "dl"],
+
+  ["ml", "sk"],
+  ["ml", "pd"],
+  ["dl", "tf"],
+  ["pt", "np"],
+  ["tf", "np"],
+  ["agent", "azure"],
+
+  ["sk", "pd"],
+  ["pd", "np"],
+  ["np", "st"],
+  ["st", "ng"],
+  ["azure", "docker"],
+  ["docker", "git"],
+  ["ng", "git"],
+  ["azure", "git"],
 ];
 
 export function SkillsConstellation() {
   const [hover, setHover] = useState<string | null>(null);
-  const [hoverGroup, setHoverGroup] = useState<string | null>(null);
+  const [hoverGroup, setHoverGroup] = useState<Group | null>(null);
 
-  // Build intra-group links
-  const links = useMemo(() => {
-    const out: [Node, Node][] = [];
-    const byGroup: Record<string, Node[]> = {};
-    for (const n of NODES) {
-      (byGroup[n.group] ??= []).push(n);
-    }
-    for (const list of Object.values(byGroup)) {
-      for (let i = 0; i < list.length; i++) {
-        // link each node to the 2 nearest in-group
-        const dists = list
-          .filter((n) => n.id !== list[i].id)
-          .map((n) => ({
-            n,
-            d: Math.hypot(n.x - list[i].x, n.y - list[i].y),
-          }))
-          .sort((a, b) => a.d - b.d)
-          .slice(0, 2);
-        for (const { n } of dists) out.push([list[i], n]);
-      }
-    }
-    return out;
+  const nodeMap = useMemo(() => {
+    const m: Record<string, Node> = {};
+    for (const n of NODES) m[n.id] = n;
+    return m;
   }, []);
-
-  return (
+    return (
     <section
       id="skills"
       className="relative mx-auto max-w-6xl px-6 py-40 md:px-10"
@@ -111,51 +124,72 @@ export function SkillsConstellation() {
         index="02"
         title={
           <>
-            A <span className="text-gradient-electric italic">constellation</span> of
-            what I work with.
+            A{" "}
+            <span className="text-gradient-electric italic">
+              constellation
+            </span>{" "}
+            of what I work with.
           </>
         }
-        kicker="Every technology is a node. Hover a category to see the connections light up — a small map of how the pieces fit together."
+        kicker="Every technology is a node in a wider network. Hover a skill or a category to explore how everything connects."
       />
 
-      {/* Legend */}
-      <div className="mb-8 flex flex-wrap gap-2">
-        {Object.entries(GROUP_LABELS).map(([key, label]) => (
+      {/* Category Chips */}
+      <div className="mb-10 flex flex-wrap justify-center gap-3">
+        {(Object.keys(GROUP_LABELS) as Group[]).map((group) => (
           <button
-            key={key}
+            key={group}
             type="button"
             data-cursor="hover"
-            onMouseEnter={() => setHoverGroup(key)}
+            onMouseEnter={() => setHoverGroup(group)}
             onMouseLeave={() => setHoverGroup(null)}
-            className="group flex items-center gap-2 rounded-full border border-foreground/10 bg-white/[0.06] px-3.5 py-1.5 text-xs font-medium text-foreground/70 backdrop-blur transition-all hover:border-foreground/25 hover:text-foreground"
+            className="flex items-center gap-2 rounded-full border border-foreground/10 bg-white/[0.06] px-4 py-2 text-xs font-medium text-foreground/70 backdrop-blur transition-all duration-300 hover:border-white/20 hover:text-white"
           >
             <span
               className="h-2.5 w-2.5 rounded-full"
               style={{
-                background: `var(--${key === "lang" ? "electric" : key === "ai" ? "purple" : key === "tools" ? "cyan" : key === "core" ? "emerald" : "indigo"})`,
+                background: COLOR[group],
               }}
             />
-            {label}
+            {GROUP_LABELS[group]}
           </button>
         ))}
       </div>
 
-      <div className="relative overflow-hidden rounded-3xl border border-foreground/10 bg-white/5 p-6 backdrop-blur">
+      <div className="relative overflow-hidden rounded-3xl border border-foreground/10 bg-[#07091a] p-6">
+        {/* Grid */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-70 bg-mesh"
+          className="pointer-events-none absolute inset-0 opacity-[0.18]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)",
+            backgroundSize: "44px 44px",
+            maskImage:
+              "radial-gradient(ellipse at center, black 55%, transparent 100%)",
+          }}
         />
+
         <div className="relative aspect-[16/10] w-full">
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
             className="absolute inset-0 h-full w-full"
           >
-            {links.map(([a, b], i) => {
+            {EDGES.map(([aId, bId], i) => {
+              const a = nodeMap[aId];
+              const b = nodeMap[bId];
+
+              if (!a || !b) return null;
+
               const active =
+                hover === aId ||
+                hover === bId ||
                 hoverGroup === a.group ||
-                hover === a.id ||
-                hover === b.id;
+                hoverGroup === b.group;
+
+              const stroke = COLOR[a.group];
+
               return (
                 <line
                   key={i}
@@ -163,69 +197,101 @@ export function SkillsConstellation() {
                   y1={a.y}
                   x2={b.x}
                   y2={b.y}
-                  stroke={`var(--${a.group === "lang" ? "electric" : a.group === "ai" ? "purple" : a.group === "tools" ? "cyan" : a.group === "core" ? "emerald" : "indigo"})`}
-                  strokeWidth={active ? 0.35 : 0.15}
-                  strokeOpacity={active ? 0.8 : 0.22}
-                  style={{ transition: "all 0.4s ease" }}
+                  stroke={stroke}
+                  strokeWidth={active ? 0.28 : 0.12}
+                  strokeOpacity={active ? 0.85 : 0.22}
                   vectorEffect="non-scaling-stroke"
+                  style={{
+                    transition: "all 0.35s ease",
+                  }}
                 />
               );
             })}
           </svg>
-
           {NODES.map((n, i) => {
-            const active = hover === n.id || hoverGroup === n.group;
+            const active =
+              hover === n.id ||
+              hoverGroup === n.group;
+
+            const color = COLOR[n.group];
+
             return (
-              <motion.button
+              <motion.div
                 key={n.id}
-                type="button"
-                data-cursor="hover"
-                onMouseEnter={() => setHover(n.id)}
-                onMouseLeave={() => setHover(null)}
-                initial={{ opacity: 0, scale: 0.6 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-20%" }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-15%" }}
                 transition={{
                   duration: 0.6,
                   delay: (i % 10) * 0.03,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                style={{ left: `${n.x}%`, top: `${n.y}%` }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border px-3 py-1.5 text-[11px] font-medium backdrop-blur transition-all duration-300"
+                style={{
+                  left: `${n.x}%`,
+                  top: `${n.y}%`,
+                }}
+                className="absolute -translate-x-1/2 -translate-y-1/2"
               >
-                <span
-                  className="pointer-events-none absolute inset-0 rounded-full opacity-0 blur-md transition-opacity duration-300"
-                  style={{
-                    background: `var(--${n.group === "lang" ? "electric" : n.group === "ai" ? "purple" : n.group === "tools" ? "cyan" : n.group === "core" ? "emerald" : "indigo"})`,
-                    opacity: active ? 0.55 : 0,
+                <motion.div
+                  animate={{
+                    y: [0, -4, 0],
                   }}
-                />
-                <span
-                  className="relative z-10"
-                  style={{
-                    color: active
-                      ? "white"
-                      : "color-mix(in oklab, var(--foreground) 75%, transparent)",
+                  transition={{
+                    duration: 4 + (i % 5) * 0.4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: (i % 7) * 0.2,
                   }}
+                  className="flex flex-col items-center"
                 >
-                  {n.label}
-                </span>
-                <span
-                  className="absolute inset-0 rounded-full border transition-colors"
-                  style={{
-                    background: active
-                      ? `var(--${n.group === "lang" ? "electric" : n.group === "ai" ? "purple" : n.group === "tools" ? "cyan" : n.group === "core" ? "emerald" : "indigo"})`
-                      : "rgba(255,255,255,0.7)",
-                    borderColor: active
-                      ? "transparent"
-                      : "color-mix(in oklab, var(--foreground) 12%, transparent)",
-                  }}
-                />
-              </motion.button>
+                  <button
+                    type="button"
+                    data-cursor="hover"
+                    onMouseEnter={() => setHover(n.id)}
+                    onMouseLeave={() => setHover(null)}
+                    className="relative flex h-3 w-3 items-center justify-center rounded-full"
+                    aria-label={n.label}
+                  >
+                    {/* Glow */}
+                    <span
+                      className="absolute inset-0 rounded-full transition-opacity duration-300"
+                      style={{
+                        background: color,
+                        filter: "blur(8px)",
+                        opacity: active ? 0.9 : 0.45,
+                      }}
+                    />
+
+                    {/* Core */}
+                    <span
+                      className="relative h-2.5 w-2.5 rounded-full ring-1 ring-white/30 transition-transform duration-300"
+                      style={{
+                        background: color,
+                        transform: active
+                          ? "scale(1.35)"
+                          : "scale(1)",
+                        boxShadow: active
+                          ? `0 0 12px ${color}, 0 0 24px ${color}`
+                          : `0 0 6px ${color}`,
+                      }}
+                    />
+                  </button>
+
+                  <span
+                    className="pointer-events-none mt-2 font-mono text-[9px] uppercase tracking-[0.18em] transition-colors duration-300"
+                    style={{
+                      color: active
+                        ? "white"
+                        : "color-mix(in oklab, white 55%, transparent)",
+                    }}
+                  >
+                    {n.label}
+                  </span>
+                </motion.div>
+              </motion.div>
             );
-          })}
-        </div>
+          })}        </div>
       </div>
     </section>
   );
-}
+}          
